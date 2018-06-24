@@ -35,3 +35,15 @@ char*	delete_begin(char **s)
     (*s)[i] = '\0';
     return (*s);
 }
+
+int		index_first_char(char **s, char c)
+{
+	int i;
+
+	i = 0;
+	while ((*s)[i] && (*s)[i] != c)
+		i++;
+	if (!(*s)[i])
+		return (-1);
+	return (i);
+}

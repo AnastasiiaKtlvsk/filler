@@ -28,6 +28,8 @@ typedef	struct	s_p
 typedef struct	s_sh
 {
 	t_p		*p;
+	int		x;
+	int		y;
 	int		r_x; //sdvig po x
 	int		r_y;
 	int		*f_c; //fit coefficien -index in array of coefficients = index in array of poins that fits for place
@@ -42,13 +44,29 @@ typedef struct	s_map
 	int		l; //letter
 }				t_map;
 
-void read_specification(t_map** tm);
+typedef	struct	s_p
+{
+	int		*x;
+	int		*y;
+}				t_p;
+void	read_specification(t_map** tm);
 void	create_map(t_map** tm);
-void free_map(t_map** tm);
+void	free_map(t_map** tm);
 void	create_map(t_map** tm);
+
 char*	delete_last_char(char **s);
 char*	delete_begin(char **s);
+int		index_first_char(char **s, char c);
+
+void	find_shape_points(t_sh** sh, int c, int j);
+void	create_shape(t_sh** sh);
+void	free_shape(t_sh** sh);
+
 
 void print_map(t_map** tm);
+void	print_shape(t_sh** sh);
+
+
+
 
 #endif

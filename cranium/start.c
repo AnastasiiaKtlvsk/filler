@@ -15,6 +15,7 @@
 int		main(int argc, char **argv)
 {
 	t_map* tm;
+	t_sh* sh;
 
 	int fd = open(argv[1], O_RDONLY);
 	tm = (t_map*)ft_memalloc(sizeof(t_map));
@@ -22,6 +23,12 @@ int		main(int argc, char **argv)
 	create_map(&tm);
 	print_map(&tm);
 	free_map(&tm);
+	sh = (t_sh*)ft_memalloc(sizeof(t_sh));
+	create_shape(&sh);
+	print_shape(&sh);
+	free_shape(&sh);
+
 	while (1==1);
 	return (0);
 }
+ 
