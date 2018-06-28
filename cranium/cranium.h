@@ -28,6 +28,7 @@ typedef	struct	s_p
 typedef struct	s_sh
 {
 	t_p		*p;
+	int 	c; //count
 	int		x;
 	int		y;
 	int		r_x; //sdvig po x
@@ -35,6 +36,12 @@ typedef struct	s_sh
 	int		*f_c; //fit coefficien -index in array of coefficients = index in array of poins that fits for place
 	t_p		*f_p; //array of higher left points of place where can be shape
 }				t_sh;
+
+typedef struct	t_ps
+{
+	t_p		*p;
+	int  	*c;
+}
 
 typedef struct	s_map
 {
@@ -44,11 +51,6 @@ typedef struct	s_map
 	int		l; //letter
 }				t_map;
 
-typedef	struct	s_p
-{
-	int		*x;
-	int		*y;
-}				t_p;
 void	read_specification(t_map** tm);
 void	create_map(t_map** tm);
 void	free_map(t_map** tm);

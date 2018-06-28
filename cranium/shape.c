@@ -46,11 +46,9 @@ void	find_shape_points(t_sh** sh, int c, int j)
 		{			
 			if (temp[i] == '*')
 			{
-				if (c == 0)
-				{
-					(*sh)->r_y = j;
-					(*sh)->r_x = i;
-				}
+				(c == 0) ? (*sh)->r_y = j : 0;
+				(c == 0) ? (*sh)->r_x = i : 0;
+				(*sh)->c++;
 				(*sh)->p->y[c] = j - (*sh)->r_y;
 				(*sh)->p->x[c++] = i - (*sh)->r_x;
 			}
@@ -67,7 +65,6 @@ void	free_shape(t_sh** sh)
 	free((*sh));
 }
 
-
 void	print_shape(t_sh** sh)
 {
 	int j = -1;
@@ -76,6 +73,7 @@ void	print_shape(t_sh** sh)
 	printf("Shape Y = %i\n", (*sh)->y);
 	printf("Rotate X = %i\n", (*sh)->r_x);
 	printf("Rotate Y = %i\n", (*sh)->r_y);
+	printf("Count = %i\n", (*sh)->c);
 	while (++j < (*sh)->y * (*sh)->x)
 	{
 		printf("%i  ", (*sh)->p->y[j]);
