@@ -12,71 +12,92 @@
 
 #include "cranium.h"
 
-void	create_shape(t_sh** sh)
+void	create_shape(t_map** tm)
 {
 	char	*sp;
 	char	**sizes;
 	int		i;
 
-	get_next_line(3, &sp);
+	(*tm)->sh = (t_sh*)ft_memalloc(sizeof(t_sh));
+	get_next_line(0, &sp);
 	sizes = ft_strsplit(sp, ' ');
 	free(sp);
-	(*sh)->y = ft_atoi(sizes[1]);
-	(*sh)->x = ft_atoi(delete_last_char(&(sizes[2])));
+	(*tm)->sh->y = ft_atoi(sizes[1]);
+	(*tm)->sh->x = ft_atoi(delete_last_char(&(sizes[2])));
 	i = -1;
 	while (++i < 3)
 		free(sizes[i]);
 	free(sizes);
-	find_shape_points(sh, 0, -1);
+	read_shape(tm);
+	find_shape_points(tm, 0, -1);
 }
 
-void	find_shape_points(t_sh** sh, int c, int j)
+void	read_shape(t_map** tm)
 {
-	char	*temp;
-	int		i;
+	int j;
+	int i;
 
-	(*sh)->p = (t_p*)ft_memalloc(sizeof(t_p));
-	(*sh)->p->x = ft_memalloc(sizeof(int) * (*sh)->x * (*sh)->y);
-	(*sh)->p->y = ft_memalloc(sizeof(int) * (*sh)->x * (*sh)->y);
-	while (++j < (*sh)->y)
+	j = -1;
+	(*tm)->sh->sm = (char**)ft_memalloc(sizeof(char*) * (*tm)->sh->y);
+	while (++j < (*tm)->sh->y)
 	{
-		get_next_line(3, &temp);
+		get_next_line(0, &((*tm)->sh->sm[j]));
 		i = -1;
-		while (temp[++i])
-		{			
-			if (temp[i] == '*')
-			{
-				(c == 0) ? (*sh)->r_y = j : 0;
-				(c == 0) ? (*sh)->r_x = i : 0;
-				(*sh)->c++;
-				(*sh)->p->y[c] = j - (*sh)->r_y;
-				(*sh)->p->x[c++] = i - (*sh)->r_x;
-			}
+		while ((*tm)->sh->sm[j][++i])
+		{
+			if ((*tm)->sh->sm[j][i] == '*')
+				(*tm)->sh->c++;
 		}
-		free(temp);
 	}
 }
 
-void	free_shape(t_sh** sh)
+void	find_shape_points(t_map** tm, int c, int j)
 {
-	free((*sh)->p->x);
-	free((*sh)->p->y);
-	free((*sh)->p);
-	free((*sh));
+	int		i;
+
+	(*tm)->sh->p = (t_p*)ft_memalloc(sizeof(t_p));
+	(*tm)->sh->p->x = (int*)ft_memalloc(sizeof(int) * (*tm)->sh->c);
+	(*tm)->sh->p->y = (int*)ft_memalloc(sizeof(int) * (*tm)->sh->c);
+	//printf("(*tm)->sh->p->y %p\n", (*tm)->sh->p->y);
+	while (++j < (*tm)->sh->y)
+	{
+		i = -1;
+		while ((*tm)->sh->sm[j][++i])
+		{			
+			if ((*tm)->sh->sm[j][i] == '*')
+			{
+				(c == 0) ? (*tm)->sh->r_y = j : 0;
+				(c == 0) ? (*tm)->sh->r_x = i : 0;
+				(*tm)->sh->p->y[c] = j - (*tm)->sh->r_y;
+				(*tm)->sh->p->x[c++] = i - (*tm)->sh->r_x;
+			}
+		}
+	}
 }
 
-void	print_shape(t_sh** sh)
+
+void	print_shape(t_map** tm)
 {
 	int j = -1;
+	int i = -1;
 
-	printf("Shape X = %i\n", (*sh)->x);
-	printf("Shape Y = %i\n", (*sh)->y);
-	printf("Rotate X = %i\n", (*sh)->r_x);
-	printf("Rotate Y = %i\n", (*sh)->r_y);
-	printf("Count = %i\n", (*sh)->c);
-	while (++j < (*sh)->y * (*sh)->x)
+	printf("Shape X = %i\n", (*tm)->sh->x);
+	printf("Shape Y = %i\n", (*tm)->sh->y);
+	printf("Rotate X = %i\n", (*tm)->sh->r_x);
+	printf("Rotate Y = %i\n", (*tm)->sh->r_y);
+	printf("Count = %i\n", (*tm)->sh->c);
+	while (++j < (*tm)->sh->y)
 	{
-		printf("%i  ", (*sh)->p->y[j]);
-		printf("%i\n", (*sh)->p->x[j]);
+		i = -1;
+		while ((*tm)->sh->sm[j][++i]){
+		printf("%c", (*tm)->sh->sm[j][i]);
+		}
+		printf("\n");
+	}
+	j = -1;
+	while (++j < (*tm)->sh->c)
+	{
+		printf("%i  ", (*tm)->sh->p->y[j]);
+		printf("%i\n", (*tm)->sh->p->x[j]);
 	}
 }

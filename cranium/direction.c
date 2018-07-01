@@ -12,52 +12,87 @@
 
 #include "cranium.h"
 
-void	create_positions_arr(t_map** tm, t_sh** sh)
-{
-
+void	create_positions_arr(t_map** tm)
+{	
+	(*tm)->ps = (t_ps*)ft_memalloc(sizeof(t_ps));
+	(*tm)->ps->ap = (t_p*)ft_memalloc(sizeof(t_p));
+	(*tm)->ps->ap->x = (int*)ft_memalloc(sizeof(int) * (*tm)->sh->c);
+	(*tm)->ps->ap->y = (int*)ft_memalloc(sizeof(int) * (*tm)->sh->c);
+	//printf("ps is allocated\n");
+	positions(tm, -1, 0, -1);
+	//printf("points are added\n");
+	find_best_point(tm);
+	//printf("result\n");
 }
-void	positions(t_map** tm, t_sh** sh, t_ps** ps) //s = 0
-{
-	int	i;
-	int j;
 
-	j = -1;
-	ps = (t_ps*)ft_memalloc(sizeof(t_ps));
-	ps->p = (t_p*)ft_memalloc(sizeof(t_p));
-	ps->p->x = (int*)ft_memalloc(sizeof(int) * (*sh)->c);
-	ps->p->y = (int*)ft_memalloc(sizeof(int) * (*sh)->c);
-	ps->c = (int*)ft_memalloc(sizeof(int) * (*sh)->c);
+void	positions(t_map** tm, int j, int p, int i) //j = -1, p = 0, i = -1
+{
+	int s;
+	int c;
+
+	c = (*tm)->sh->c;
 	while ((*tm)->map[++j])
 	{
 		i = -1;
-		while ((*tm)->map[j][++i])
+		while ((*tm)->sh->p->y[c] + j < (*tm)->y && (*tm)->map[j][++i])
 		{
-			check_position(t_map** tm, int x, int y, t_sh** sh)
 			s = 0;
-			c = (*sh)->c - 1;
-			while (c >= 0)
+			c = (*tm)->sh->c;
+		//	printf("%s : %i %i\n", "Coordinates: ", j, i);
+			while (--c >= 0 && (*tm)->sh->p->y[c] + j < (*tm)->y)
 			{
-				if ((*tm)->map[j + (*sh)->y[c]][i + (*sh)->y[c]] == '*')
-					s++;
-				if ((*tm)->map[j + (*sh)->y[c]][i + (*sh)->y[c]])
-					c = -5;
-				c--;
+				((*tm)->map[j + (*tm)->sh->p->y[c]][i + (*tm)->sh->p->x[c]]
+				== (*tm)->l) ? s++ : 0;
+				(!(*tm)->map[j + (*tm)->sh->p->y[c]][i + (*tm)->sh->p->x[c]] || (*tm)->el ==
+					(*tm)->map[j + (*tm)->sh->p->y[c]][i + (*tm)->sh->p->x[c]]) ? c = -5 : 0;
 			}
-			if (s == 1 && c == -1)
-			
+			(s == 1 && c == -1) ? (*tm)->ps->ap->y[p] = j : 0;
+			(s == 1 && c == -1) ? (*tm)->ps->ap->x[p++] = i  : 0;
+			(s == 1 && c == -1) ? (*tm)->ps->c++ : 0;
+			//(s == 1 && c == -1) ? printf("%s : %i %i\n", "Add point", j, i) : 0;
 		}
 	}
 }
 
-void	check_position(t_map** tm, int x, int y, t_sh** sh)
+void	find_best_point(t_map** tm)
 {
-	int p_c;
+	int	i;
+	int j;
+	int k;
 	int c;
 
-	c = (*sh)->c - 1;
-	while (c >= 0)
-	{
-		if ()
-	}
+	i = -1;
+	c = 2147483647;
+//	printf("(*tm)->ce %i\n",(*tm)->ce);
+//	printf("(*tm)->ps->c %i\n", (*tm)->ps->c);
 
+	while (++i < (*tm)->ce)
+	{
+		j = -1;
+		while (++j < (*tm)->ps->c)
+		{
+			k = -1;
+			while (++k < (*tm)->sh->c)
+			{
+				if (c >= find_distance_in_square((*tm)->ps->ap->x[j] + (*tm)->sh->p->x[k],
+			 (*tm)->ps->ap->y[j] + (*tm)->sh->p->y[k], (*tm)->p->x[i], (*tm)->p->y[i]))
+				{
+					c = find_distance_in_square((*tm)->ps->ap->x[j] + (*tm)->sh->p->x[k],
+			 (*tm)->ps->ap->y[j] + (*tm)->sh->p->y[k], (*tm)->p->x[i], (*tm)->p->y[i]);
+				(*tm)->ps->r = j;
+			}
+				//printf("Distance %i y %i x %i\n", find_distance_in_square((*tm)->ps->ap->x[j] + (*tm)->sh->p->x[k],
+			 //(*tm)->ps->ap->y[j] + (*tm)->sh->p->y[k], (*tm)->p->x[i], (*tm)->p->y[i]), (*tm)->ps->ap->y[j] + (*tm)->sh->p->y[k],(*tm)->ps->ap->x[j] + (*tm)->sh->p->x[k] );
+			}
+
+
+		}
+	}
+//	printf("Coefficient: %i\n", c);
+//	printf("r: %i\n", (*tm)->ps->r);
+}
+
+int		find_distance_in_square(int x1, int y1, int x2, int y2)
+{
+	return ((x1 - x2) * (x1 - x2)) + ((y1 - y2) * (y1 - y2));
 }
