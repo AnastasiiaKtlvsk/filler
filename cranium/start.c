@@ -12,48 +12,32 @@
 
 #include "cranium.h"
 
-int		main(void)//(int argc, char **argv)
+int		main(void)
 {
 	t_map* tm;
-
-	// int fd;
-
-	// fd = open(argv[1], O_RDONLY);
-
 	tm = (t_map*)ft_memalloc(sizeof(t_map));
-	int i = 1;
+
 	read_specification(&tm, -1);
 	char *temp;
-	while (i++ < 3)
+	while (1 == 1)
 	{
-
 		create_map(&tm);
-	//print_map(&tm);
-
-	
 		create_shape(&tm);
-	//print_shape(&tm);
 		create_positions_arr(&tm);
-
-	//printf("R %i\n", tm->ps->r);
-	//ft_printf("%i %i\n", tm->ps->ap->y[tm->ps->r] - tm->sh->r_y, tm->ps->ap->x[tm->ps->r] - tm->sh->r_x);
-//	printf("%i %i\n", tm->ps->ap->y[tm->ps->r] - tm->sh->r_y, tm->ps->ap->x[tm->ps->r] - tm->sh->r_x);
-		//ft_putnbr(tm->ps->ap->y[tm->ps->r] - tm->sh->r_y);
-		//ft_putchar(' ');
-		//ft_putnbr(tm->ps->ap->x[tm->ps->r] - tm->sh->r_x);
-
+		ft_putnbr(tm->ps->ap->y[tm->ps->r] - tm->sh->r_y);
+		ft_putchar(' ');
+		ft_putnbr(tm->ps->ap->x[tm->ps->r] - tm->sh->r_x);
+		ft_putchar('\n');
 		free_map(&tm);
-		
-		//printf("kek\n");
-		get_next_line(0, &temp);
+		if (get_next_line(0, &temp) < 1)
+			break;
 		free(temp);
-		// if (tm->ps->ap->y[tm->ps->r] - tm->sh->r_y == 0 &&
-		// 	tm->ps->ap->x[tm->ps->r] - tm->sh->r_x == 0)
-		// 	break;
+		if (tm->ps->ap->y[tm->ps->r] - tm->sh->r_y == 0 &&
+	 	tm->ps->ap->x[tm->ps->r] - tm->sh->r_x == 0)
+			break;
 	}
-
 	free(tm);
-//	printf("cheburek\n");
+
 	return (0);
 }
  

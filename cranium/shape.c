@@ -51,6 +51,18 @@ void	read_shape(t_map** tm)
 	}
 }
 
+void	fill_zero(t_map** tm)
+{
+	int	i;
+
+	i = -1;
+	while (++i < (*tm)->sh->c)
+	{
+		(*tm)->sh->p->x[i] = 0;
+		(*tm)->sh->p->y[i] = 0;
+	}
+}
+
 void	find_shape_points(t_map** tm, int c, int j)
 {
 	int		i;
@@ -58,6 +70,7 @@ void	find_shape_points(t_map** tm, int c, int j)
 	(*tm)->sh->p = (t_p*)ft_memalloc(sizeof(t_p));
 	(*tm)->sh->p->x = (int*)ft_memalloc(sizeof(int) * (*tm)->sh->c);
 	(*tm)->sh->p->y = (int*)ft_memalloc(sizeof(int) * (*tm)->sh->c);
+	//fill_zero(tm);
 	//printf("(*tm)->sh->p->y %p\n", (*tm)->sh->p->y);
 	while (++j < (*tm)->sh->y)
 	{
@@ -74,6 +87,7 @@ void	find_shape_points(t_map** tm, int c, int j)
 		}
 	}
 }
+
 
 
 void	print_shape(t_map** tm)

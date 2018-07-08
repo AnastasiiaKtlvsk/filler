@@ -73,7 +73,7 @@ void	find_best_point(t_map** tm);
 void	positions(t_map** tm, int j, int p, int i);
 int		find_distance_in_square(int x1, int y1, int x2, int y2);
 
-void print_map(t_map** tm);
+void	print_map(t_map** tm);
 void	print_shape(t_map** tm);
 
 

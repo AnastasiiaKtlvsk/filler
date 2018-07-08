@@ -25,20 +25,39 @@ void	create_positions_arr(t_map** tm)
 	//printf("result\n");
 }
 
+void	print_arrays(t_map** tm)
+{
+	int	i;
+
+	i = -1;
+	printf("c %i\n", (*tm)->sh->c);
+	while (++i < 30)
+	{
+		printf("y %i", (*tm)->sh->p->y[i]);
+		printf(" x %i\n", (*tm)->sh->p->x[i]);
+	}
+}
+
 void	positions(t_map** tm, int j, int p, int i) //j = -1, p = 0, i = -1
 {
 	int s;
 	int c;
 
 	c = (*tm)->sh->c;
+	//print_arrays(tm);
 	while ((*tm)->map[++j])
 	{
 		i = -1;
-		while ((*tm)->sh->p->y[c] + j < (*tm)->y && (*tm)->map[j][++i])
+	//	printf("map position %p\n",  &((*tm)->map[j]));
+	//printf("%s : %i %i\n", "Coordinates: ", j, i);
+	//printf("%s : %i \n", "c: ",c);
+
+		//printf("%s : %p\n", " (*tm)->sh->p->y[c]", &((*tm)->sh->p->y[c]));
+		while ((*tm)->sh->p->y[c - 1] + j < (*tm)->y && (*tm)->map[j][++i])
 		{
 			s = 0;
-			c = (*tm)->sh->c;
-		//	printf("%s : %i %i\n", "Coordinates: ", j, i);
+			//printf("%s : %i %i\n", "Coordinates2: ", j, i);
+		//	printf("%s : %i\n", "(*tm)->sh->p->y[c] + j", (*tm)->sh->p->y[0] + j);
 			while (--c >= 0 && (*tm)->sh->p->y[c] + j < (*tm)->y)
 			{
 				((*tm)->map[j + (*tm)->sh->p->y[c]][i + (*tm)->sh->p->x[c]]
@@ -49,7 +68,8 @@ void	positions(t_map** tm, int j, int p, int i) //j = -1, p = 0, i = -1
 			(s == 1 && c == -1) ? (*tm)->ps->ap->y[p] = j : 0;
 			(s == 1 && c == -1) ? (*tm)->ps->ap->x[p++] = i  : 0;
 			(s == 1 && c == -1) ? (*tm)->ps->c++ : 0;
-			//(s == 1 && c == -1) ? printf("%s : %i %i\n", "Add point", j, i) : 0;
+		//	(s == 1 && c == -1) ? printf("%s : %i %i\n", "Add point", j, i) : 0;
+			c = (*tm)->sh->c;
 		}
 	}
 }

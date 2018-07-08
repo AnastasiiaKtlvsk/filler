@@ -20,26 +20,26 @@ void read_specification(t_map** tm, int i) // i = -1
 	get_next_line(0, &sp);
 	if (ft_strstr(sp, "p1"))
 	{
-		(*tm)->l = 'x';
-		(*tm)->el = 'o';
-	}
-	if (ft_strstr(sp, "p2"))
-	{
 		(*tm)->l = 'o';
 		(*tm)->el = 'x';
 	}
-	free(sp);
+	if (ft_strstr(sp, "p2"))
+	{
+		(*tm)->l = 'x';
+		(*tm)->el = 'o';  
+	}
+	free(sp);		
 	get_next_line(0, &sp);
 	sizes = ft_strsplit(sp, ' ');
 	free(sp);
-	(*tm)->y = ft_atoi(sizes[1]);
+	(*tm)->y = ft_atoi( sizes[1]);
 	(*tm)->x = ft_atoi(delete_last_char(&(sizes[2])));
 	while (++i < 3)
-		free(sizes[i]);
+	free(sizes[i]);
 	free(sizes);
 }
 
-void	create_map(t_map** tm)
+void		create_map(t_map** tm)
 {
 	int y;
 	char *temp;
@@ -50,15 +50,15 @@ void	create_map(t_map** tm)
 	y = 0;
 	get_next_line(0, &(temp));
 	free(temp);
-	printf("%s %i\n", "(*tm)->y", (*tm)->y);
 	while (y < (*tm)->y)
 	{
 		get_next_line(0, &temp);
 		i = -1;
 		while (temp[++i])
 			temp[i] = ft_tolower(temp[i]);
-		printf("%s\n", ft_strdup(ft_strchr(temp, ' ') + 1));
+//		printf("%s\n", ft_strdup(ft_strchr(temp, ' ') + 1));
 		(*tm)->map[y++] = ft_strdup(ft_strchr(temp, ' ') + 1);
+	//	printf("map %p\n",  &((*tm)->map[y - 1]));
 		free(temp);
 	}
 	find_enemy_points(tm);
@@ -95,6 +95,7 @@ void free_map(t_map** tm)
 	int j;
 
 	j = -1;
+//	printf("map 0 %p\n",  &((*tm)->map[0]));
 	while (++j < (*tm)->y)
 		free((*tm)->map[j]);
 	free((*tm)->map);
@@ -113,7 +114,7 @@ void free_map(t_map** tm)
 	free((*tm)->ps->ap->y);
 	free((*tm)->ps->ap);
 	free((*tm)->ps);
-	
+//	printf("__________________________free\n");
 }
 
 void print_map(t_map** tm)
