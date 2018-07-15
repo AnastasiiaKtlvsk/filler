@@ -16,12 +16,12 @@ void	create_positions_arr(t_map** tm)
 {	
 	(*tm)->ps = (t_ps*)ft_memalloc(sizeof(t_ps));
 	(*tm)->ps->ap = (t_p*)ft_memalloc(sizeof(t_p));
-	(*tm)->ps->ap->x = (int*)ft_memalloc(sizeof(int) * (*tm)->sh->c);
-	(*tm)->ps->ap->y = (int*)ft_memalloc(sizeof(int) * (*tm)->sh->c);
+	(*tm)->ps->ap->x = (int*)ft_memalloc(sizeof(int) * 100);
+	(*tm)->ps->ap->y = (int*)ft_memalloc(sizeof(int) * 100);
 	//printf("ps is allocated\n");
 	positions(tm, -1, 0, -1);
 	//printf("points are added\n");
-	find_best_point(tm);
+	find_best_point(tm, 0, 0);
 	//printf("result\n");
 }
 
@@ -74,7 +74,7 @@ void	positions(t_map** tm, int j, int p, int i) //j = -1, p = 0, i = -1
 	}
 }
 
-void	find_best_point(t_map** tm)
+void	find_best_point(t_map** tm, int x, int y)
 {
 	int	i;
 	int j;
@@ -83,8 +83,6 @@ void	find_best_point(t_map** tm)
 
 	i = -1;
 	c = 2147483647;
-//	printf("(*tm)->ce %i\n",(*tm)->ce);
-//	printf("(*tm)->ps->c %i\n", (*tm)->ps->c);
 
 	while (++i < (*tm)->ce)
 	{
@@ -94,12 +92,15 @@ void	find_best_point(t_map** tm)
 			k = -1;
 			while (++k < (*tm)->sh->c)
 			{
-				if (c >= find_distance_in_square((*tm)->ps->ap->x[j] + (*tm)->sh->p->x[k],
-			 (*tm)->ps->ap->y[j] + (*tm)->sh->p->y[k], (*tm)->p->x[i], (*tm)->p->y[i]))
+				if (c <= find_distance_in_square((*tm)->ps->ap->x[j] + (*tm)->sh->p->x[k],
+			 (*tm)->ps->ap->y[j] + (*tm)->sh->p->y[k], (*tm)->p->x[i], (*tm)->p->y[i]) ||
+			 (x == 0 && y == 0))
 				{
 					c = find_distance_in_square((*tm)->ps->ap->x[j] + (*tm)->sh->p->x[k],
 			 (*tm)->ps->ap->y[j] + (*tm)->sh->p->y[k], (*tm)->p->x[i], (*tm)->p->y[i]);
 				(*tm)->ps->r = j;
+				y = (*tm)->ps->ap->y[(*tm)->ps->r] - (*tm)->sh->r_y;
+				x = (*tm)->ps->ap->x[(*tm)->ps->r] - (*tm)->sh->r_x;
 			}
 				//printf("Distance %i y %i x %i\n", find_distance_in_square((*tm)->ps->ap->x[j] + (*tm)->sh->p->x[k],
 			 //(*tm)->ps->ap->y[j] + (*tm)->sh->p->y[k], (*tm)->p->x[i], (*tm)->p->y[i]), (*tm)->ps->ap->y[j] + (*tm)->sh->p->y[k],(*tm)->ps->ap->x[j] + (*tm)->sh->p->x[k] );
@@ -114,5 +115,11 @@ void	find_best_point(t_map** tm)
 
 int		find_distance_in_square(int x1, int y1, int x2, int y2)
 {
+	return ((x1 - x2) * (x1 - x2)) + ((y1 - y2) * (y1 - y2));
+}
+
+int		check_between(int x1, int y1, int x2, int y2)
+{
+	
 	return ((x1 - x2) * (x1 - x2)) + ((y1 - y2) * (y1 - y2));
 }

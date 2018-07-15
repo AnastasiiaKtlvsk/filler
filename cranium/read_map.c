@@ -72,8 +72,8 @@ void	find_enemy_points(t_map** tm)
 
 	ce = 0;
 	(*tm)->p = (t_p*)ft_memalloc(sizeof(t_p));
-	(*tm)->p->x = ft_memalloc(sizeof(int) * (*tm)->x * (*tm)->y);
-	(*tm)->p->y = ft_memalloc(sizeof(int) * (*tm)->x * (*tm)->y);
+	(*tm)->p->x = ft_memalloc(sizeof(int) * 300);
+	(*tm)->p->y = ft_memalloc(sizeof(int) * 300);
 	j = -1;
 	while (++j < (*tm)->y)
 	{
@@ -104,16 +104,16 @@ void free_map(t_map** tm)
 	free((*tm)->p);
 	free((*tm)->sh->p->x);
 	free((*tm)->sh->p->y);
-	free((*tm)->sh->p);
+	/*free((*tm)->sh->p);*/
 	j = -1;
 	while (++j < (*tm)->sh->y)
 		free((*tm)->sh->sm[j]);
 	free((*tm)->sh->sm);
 	free((*tm)->sh);
-	free((*tm)->ps->ap->x);
+	/*free((*tm)->ps->ap->x);
 	free((*tm)->ps->ap->y);
 	free((*tm)->ps->ap);
-	free((*tm)->ps);
+	free((*tm)->ps);*/
 //	printf("__________________________free\n");
 }
 

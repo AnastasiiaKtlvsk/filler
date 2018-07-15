@@ -36,8 +36,7 @@ int		main(void)
 	 	tm->ps->ap->x[tm->ps->r] - tm->sh->r_x == 0)
 			break;
 	}
-	free(tm);
-
+	//free(tm);
 	return (0);
 }
  
